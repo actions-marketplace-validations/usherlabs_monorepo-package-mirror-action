@@ -9,7 +9,7 @@ export GIT_SSH_COMMAND="ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -l $
 git remote add mirror "$INPUT_TARGET_REPO_URL"
 
 # https://github.com/orgs/community/discussions/26855 github/workspace is common way to get mirrorignore from action
-python3 /git-filter-repo --source "$GITHUB_WORKSPACE" --target "$GITHUB_WORKSPACE" --invert-paths --paths-from-file "$GITHUB_WORKSPACE/.mirrorignore" --refs "$INPUT_MAIN_BRANCH"
+python3 /git-filter-repo --source "$GITHUB_WORKSPACE" --target "$GITHUB_WORKSPACE" --invert-paths --paths-from-file "$GITHUB_WORKSPACE/.mirrorignore" --refs "$INPUT_MAIN_BRANCH" --force
 
 git push --tags --force --prune mirror "refs/remotes/origin/$INPUT_MAIN_BRANCH:refs/heads/$INPUT_MAIN_BRANCH"
 
