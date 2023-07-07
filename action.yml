@@ -14,6 +14,10 @@ inputs:
     description: "Username for ssh connection"
     required: false
     default: "git"
+  main_branch:
+      description: "Main branch that will be copied"
+      required: true
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
