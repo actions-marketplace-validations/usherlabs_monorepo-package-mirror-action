@@ -5,7 +5,7 @@ RUN apk update && apk upgrade && \
 
 RUN git lfs install
 
-MKDIR /scripts
+RUN mkdir /scripts
 
 # add scripts to path
 # we still want to make this scripts are executable from any part
