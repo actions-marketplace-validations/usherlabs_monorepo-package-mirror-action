@@ -30,7 +30,10 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
     directories=$(parse_mirror_ignore "/.mirrorignore")
     echo "Adding private files..."
     echo "$directories"
-    add_private_files "${directories[@]}"
+
+    for dir in $directories; do
+        add_private_files "$dir"
+    done
 
     echo "Applying changes..."
     apply_changes_git "Set as private files"
