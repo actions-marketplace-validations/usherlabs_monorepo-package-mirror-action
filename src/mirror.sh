@@ -6,6 +6,9 @@ source modules.sh
 
 # else it errors
 git config --global --add safe.directory $GITHUB_WORKSPACE
+git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+git config --global user.name "$GITHUB_ACTOR"
+
 
 export GIT_SSH_COMMAND="ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -l $INPUT_SSH_USERNAME"
 git remote add mirror "$INPUT_TARGET_REPO_URL"
