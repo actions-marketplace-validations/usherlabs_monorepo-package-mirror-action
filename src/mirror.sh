@@ -22,9 +22,11 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
 
     # add private files
     directories=$(parse_mirror_ignore "$GITHUB_WORKSPACE/.mirrorignore")
+    echo "Adding private files..."
+    echo "$directories"
     add_private_files "${directories[@]}"
 
-    # apply changes
+    echo "Applying changes..."
     apply_changes_git "Set as private files"
 else
     # execute without --paths-from-file if file does not exist
@@ -32,8 +34,8 @@ else
 fi
 
 
+echo "Pushing to mirror..."
 # get files from .mirrorignore
-
 git push --tags --force --prune mirror "$INPUT_MAIN_BRANCH"
 
 # NOTE: Since `post` execution is not supported for local action from './' for now, we need to
