@@ -43,6 +43,7 @@ parse_mirror_ignore() {
   fi
   mirror_ignore_path=$1
 
+  ls -la "$mirror_ignore_path" >&2
   if [ ! -f "$mirror_ignore_path" ]; then
     echo "Error: $mirror_ignore_path does not exist" >&2
     return 1
