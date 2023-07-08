@@ -5,10 +5,16 @@ RUN apk update && apk upgrade && \
 
 RUN git lfs install
 
-COPY git-filter-repo /git-filter-repo
-COPY src/setup-ssh.sh /setup-ssh.sh
-COPY src/mirror.sh /mirror.sh
-COPY src/cleanup.sh /cleanup.sh
-COPY src/modules.sh /modules.sh
+MKDIR /scripts
+
+# add scripts to path
+# we still want to make this scripts are executable from any part
+ENV PATH="/scripts:${PATH}"
+
+COPY git-filter-repo /scripts/git-filter-repo
+COPY src/setup-ssh.sh /scripts/setup-ssh.sh
+COPY src/mirror.sh /scripts/mirror.sh
+COPY src/cleanup.sh /scripts/cleanup.sh
+COPY src/modules.sh /scripts/modules.sh
 
 ENTRYPOINT ["/mirror.sh"]

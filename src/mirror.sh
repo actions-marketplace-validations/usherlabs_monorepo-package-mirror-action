@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 set -eu
 
-./setup-ssh.sh
-source ./modules.sh
+setup-ssh.sh
+source modules.sh
 
 # else it errors
 git config --global --add safe.directory $GITHUB_WORKSPACE
