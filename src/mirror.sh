@@ -19,7 +19,7 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
   echo "Found .mirrorignore file."
   cp "$GITHUB_WORKSPACE/.mirrorignore" /.mirrorignore
     # execute if file exists
-    $command --paths-from-file /.mirrorignore
+    $command --invert-paths --paths-from-file /.mirrorignore
     if [ $? -ne 0 ]; then
         echo "git-filter-repo command failed."
         exit 1
