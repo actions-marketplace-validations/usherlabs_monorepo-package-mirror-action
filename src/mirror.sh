@@ -14,8 +14,9 @@ command="python3 /git-filter-repo --force --refs $INPUT_MAIN_BRANCH"
 
 if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
   echo "Found .mirrorignore file."
+  cp "$GITHUB_WORKSPACE/.mirrorignore" /.mirrorignore
     # execute if file exists
-    $command --paths-from-file "$GITHUB_WORKSPACE/.mirrorignore"
+    $command --paths-from-file /.mirrorignore
     if [ $? -ne 0 ]; then
         echo "git-filter-repo command failed."
         exit 1
@@ -23,7 +24,7 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
 
     # add private files
     echo "Parsing .mirrorignore file..."
-    directories=$(parse_mirror_ignore "$GITHUB_WORKSPACE/.mirrorignore")
+    directories=$(parse_mirror_ignore "/.mirrorignore")
     echo "Adding private files..."
     echo "$directories"
     add_private_files "${directories[@]}"
