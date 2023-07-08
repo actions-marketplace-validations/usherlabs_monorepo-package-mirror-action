@@ -11,7 +11,7 @@ RUN mkdir /scripts
 # we still want to make this scripts are executable from any part
 ENV PATH="/scripts:${PATH}"
 
-COPY git-filter-repo /scripts/git-filter-repo
+COPY git-filter-repo /git-filter-repo
 COPY src/setup-ssh.sh /scripts/setup-ssh.sh
 COPY src/mirror.sh /scripts/mirror.sh
 COPY src/cleanup.sh /scripts/cleanup.sh
