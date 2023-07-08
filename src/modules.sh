@@ -49,6 +49,7 @@ parse_mirror_ignore() {
   fi
 
   valid_lines=$(grep -v '^#' "$mirror_ignore_path" | grep '[^[:blank:]]')
+  echo "Valid lines: $valid_lines"
 
   # exclude files from this list
   valid_directories=()

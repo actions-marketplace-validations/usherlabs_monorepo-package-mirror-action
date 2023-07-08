@@ -22,6 +22,7 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
     fi
 
     # add private files
+    echo "Parsing .mirrorignore file..."
     directories=$(parse_mirror_ignore "$GITHUB_WORKSPACE/.mirrorignore")
     echo "Adding private files..."
     echo "$directories"
