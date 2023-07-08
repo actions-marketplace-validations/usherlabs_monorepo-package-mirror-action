@@ -48,6 +48,7 @@ parse_mirror_ignore() {
     return 1
   fi
 
+  echo "Getting valid lines..."
   # get valid lines
   valid_lines=$(grep -v '^#' "$mirror_ignore_path" | grep '[^[:blank:]]')
   echo "Valid lines: $valid_lines"
