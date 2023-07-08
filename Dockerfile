@@ -6,8 +6,9 @@ RUN apk update && apk upgrade && \
 RUN git lfs install
 
 COPY git-filter-repo /git-filter-repo
-COPY setup-ssh.sh /setup-ssh.sh
-COPY mirror.sh /mirror.sh
-COPY cleanup.sh /cleanup.sh
+COPY src/setup-ssh.sh /setup-ssh.sh
+COPY src/mirror.sh /mirror.sh
+COPY src/cleanup.sh /cleanup.sh
+COPY src/modules.sh /modules.sh
 
 ENTRYPOINT ["/mirror.sh"]
