@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # if it's a file: don't do nothing
 # else checks if it is already a dir
