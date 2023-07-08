@@ -17,6 +17,11 @@ command="python3 /git-filter-repo --force --refs $INPUT_MAIN_BRANCH"
 
 if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
   echo "Found .mirrorignore file."
+
+  # we must parse before resetting, otherwise things will be bad
+  echo "Parsing .mirrorignore file..."
+  directories=$(parse_mirror_ignore "/.mirrorignore")
+
   cp "$GITHUB_WORKSPACE/.mirrorignore" /.mirrorignore
     # execute if file exists
     $command --invert-paths --paths-from-file /.mirrorignore
@@ -25,9 +30,6 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
         exit 1
     fi
 
-    # add private files
-    echo "Parsing .mirrorignore file..."
-    directories=$(parse_mirror_ignore "/.mirrorignore")
     echo "Adding private files..."
     echo "$directories"
 
