@@ -24,7 +24,7 @@ add_private_files() {
 
 apply_changes_git() {
   if [ -z "$1" ]; then
-    echo "Error: commit message is required"
+    echo "Error: commit message is required" >&2
     return 1
   fi
   msg=$1
@@ -38,20 +38,18 @@ apply_changes_git() {
 # we must check if is a directory manually, it may or may not have a slash
 parse_mirror_ignore() {
   if [ -z "$1" ]; then
-    echo "Error: path to the .mirrorignore file is required"
+    echo "Error: path to the .mirrorignore file is required" >&2
     return 1
   fi
   mirror_ignore_path=$1
 
   if [ ! -f "$mirror_ignore_path" ]; then
-    echo "Error: $mirror_ignore_path does not exist"
+    echo "Error: $mirror_ignore_path does not exist" >&2
     return 1
   fi
 
-  echo "Getting valid lines..."
   # get valid lines
   valid_lines=$(grep -v '^#' "$mirror_ignore_path" | grep '[^[:blank:]]')
-  echo "Valid lines: $valid_lines"
 
   # exclude files from this list
   valid_directories=()
