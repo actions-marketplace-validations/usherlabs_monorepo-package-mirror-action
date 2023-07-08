@@ -47,4 +47,4 @@ git push --tags --force --prune mirror "$INPUT_MAIN_BRANCH"
 
 # NOTE: Since `post` execution is not supported for local action from './' for now, we need to
 # run the command by hand.
-/cleanup.sh mirror
+cleanup.sh mirror
