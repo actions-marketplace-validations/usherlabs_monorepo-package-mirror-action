@@ -13,6 +13,7 @@ git remote add mirror "$INPUT_TARGET_REPO_URL"
 command="python3 /git-filter-repo --force --refs $INPUT_MAIN_BRANCH"
 
 if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
+  echo "Found .mirrorignore file."
     # execute if file exists
     $command --paths-from-file "$GITHUB_WORKSPACE/.mirrorignore"
     if [ $? -ne 0 ]; then
@@ -29,6 +30,7 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
     echo "Applying changes..."
     apply_changes_git "Set as private files"
 else
+    echo "No .mirrorignore file found."
     # execute without --paths-from-file if file does not exist
     $command
 fi
