@@ -21,7 +21,7 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
 
   # we must parse before resetting, otherwise things will be bad
   echo "Parsing .mirrorignore file..."
-  directories=$(get_actual_directories_from_mirror_ignore "/.mirrorignore")
+  directories=$(get_actual_directories_from_mirror_ignore "/.mirrorignore" "$GITHUB_WORKSPACE")
 
     # execute if file exists
     $command --invert-paths --paths-from-file /.mirrorignore
@@ -32,7 +32,7 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
 
     for dir in $directories; do
       #  -f normalizes even if the dir doesn't exist
-        add_private_files "$(readlink $GITHUB_WORKSPACE -f)$(readlink /$dir -f)"
+        add_private_files "$(readlink $dir -f)"
     done
 
     echo "Applying changes..."
