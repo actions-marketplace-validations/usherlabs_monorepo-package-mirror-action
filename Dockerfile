@@ -1,7 +1,7 @@
 FROM python:3.9-alpine
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache git openssh git-lfs bash
+    apk add --no-cache git openssh git-lfs bash realpath
 
 RUN git lfs install
 
