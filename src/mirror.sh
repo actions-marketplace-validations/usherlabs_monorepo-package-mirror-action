@@ -30,7 +30,6 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
         exit 1
     fi
 
-    echo "Adding private files..."
     for dir in $directories; do
       #  -f normalizes even if the dir doesn't exist
         add_private_files "$(readlink $GITHUB_WORKSPACE -f)$(readlink /$dir -f)"

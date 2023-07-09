@@ -10,6 +10,7 @@ add_private_files() {
         return 1
     fi
   dir=$1
+  echo "Adding private files to $dir..."
     if [ ! -d "$dir" ]; then
         echo "Error: $dir is not a directory" >&2
         return 1
