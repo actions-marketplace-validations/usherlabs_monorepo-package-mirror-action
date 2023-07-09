@@ -21,7 +21,7 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
 
   # we must parse before resetting, otherwise things will be bad
   echo "Parsing .mirrorignore file..."
-  directories=$(parse_mirror_ignore "/.mirrorignore")
+  directories=$(get_actual_directories_from_mirror_ignore "/.mirrorignore")
 
     # execute if file exists
     $command --invert-paths --paths-from-file /.mirrorignore

@@ -2,24 +2,20 @@
 
 # if it's a file: don't do nothing
 # else checks if it is already a dir
-# if there's no dir on path
-# - create recursively <dir>
+# if there's no dir on path should error
 # finally touches .gitkeep and .private to dir
 add_private_files() {
     if [ -z "$1" ]; then
-        echo "Error: path to the directory is required"
+        echo "Error: path to the directory is required" >&2
         return 1
     fi
   dir=$1
-    if [ -f "$dir" ]; then
-        echo "$dir is a file. Skipping..."
-    else
-        if [ ! -d "$dir" ]; then
-            mkdir -p "$dir"
-        fi
+    if [ ! -d "$dir" ]; then
+        echo "Error: $dir is not a directory" >&2
+        return 1
+    fi
         touch "$dir/.gitkeep"
         touch "$dir/.private"
-    fi
 }
 
 apply_changes_git() {
@@ -36,7 +32,10 @@ apply_changes_git() {
 # - filters directories only
 # - removes lines that starts with # comment
 # we must check if is a directory manually, it may or may not have a slash
-parse_mirror_ignore() {
+# if it is a existent directory, we will use it. Otherwise we won't.
+# it's important to confirm that, as we just want to consider directories to add something to it if they are currently
+# live at the repository, and not previously commited and deleted
+get_actual_directories_from_mirror_ignore() {
   if [ -z "$1" ]; then
     echo "Error: path to the .mirrorignore file is required" >&2
     return 1
@@ -56,9 +55,6 @@ parse_mirror_ignore() {
   valid_directories=()
   for line in $valid_lines; do
     if [ -d "$line" ]; then
-      valid_directories+=("$line")
-    elif [ ! -f "$line" ]; then
-      #if isn't file nor directory, we can add to as it will be created later
       valid_directories+=("$line")
     fi
   done
