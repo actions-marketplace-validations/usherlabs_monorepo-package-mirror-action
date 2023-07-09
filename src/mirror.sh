@@ -32,8 +32,8 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
 
     echo "Adding private files..."
     for dir in $directories; do
-      # realpath -m normalizes even if the dir doesn't exist
-        add_private_files "$(realpath $GITHUB_WORKSPACE)$(realpath -m /$dir)"
+      #  -f normalizes even if the dir doesn't exist
+        add_private_files "$(readlink $GITHUB_WORKSPACE -f)$(readlink /$dir -f)"
     done
 
     echo "Applying changes..."
