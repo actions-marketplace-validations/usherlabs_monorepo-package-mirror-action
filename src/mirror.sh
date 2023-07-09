@@ -31,6 +31,8 @@ if [ -f "$GITHUB_WORKSPACE/.mirrorignore" ]; then
     fi
 
     for dir in $directories; do
+      # creates directory recursively, as we've deleted it from last commands
+      mkdir -p "$dir"
       #  -f normalizes even if the dir doesn't exist
         add_private_files "$(readlink $dir -f)"
     done
