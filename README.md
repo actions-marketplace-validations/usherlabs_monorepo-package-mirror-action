@@ -1,12 +1,25 @@
-# repository-mirroring-action
+# **Repository Mirroring Action**
 
-[![Test](https://github.com/pixta-dev/repository-mirroring-action/actions/workflows/test.yml/badge.svg)](https://github.com/pixta-dev/repository-mirroring-action/actions/workflows/test.yml)
+This GitHub Action mirrors a repository to another repository while rewriting git history to ignore certain files or directories. It is based on the original **[repository-mirroring-action](https://github.com/pixta-dev/repository-mirroring-action)** by pixta-dev, but with some added features:
 
-A GitHub Action for mirroring a repository to another repository on GitHub, GitLab, BitBucket, AWS CodeCommit, etc.
+- It supports .mirrorignore file to ignore certain paths when mirroring.
+- It adds .gitkeep and .private files to the ignored directories that exist on the last commit.
+- It commits these changes as **`github.actor`**.
 
-This will copy all commits, branches and tags.
+This action is perfect for maintaining a clean, public-facing mirror of a private repository.
 
->⚠️ Note that the other settings will not be copied. Please check which branch is 'default branch' after the first mirroring.
+## **How It Works**
+
+1. It's recommended to set it to run on main branch pushes and deletions. You can configure the branch in the settings of the GitHub action.
+2. It runs within a Docker environment, containing the pushed repository at **`/github/workspaces`**.
+3. It uses **`git-filter-repo`** to rewrite git history, removing all paths (directories and files) specified in the **`.mirrorignore`** file. See the **[documentation](https://htmlpreview.github.io/?https://github.com/newren/git-filter-repo/blob/docs/html/git-filter-repo.html)** for more details.
+4. If any removed directories were present on the last commit, they will be replaced with a directory containing **`.gitkeep`** and **`.private`** files.
+5. These changes are committed and pushed to the mirror repository.
+
+## Notes
+
+- All caveats present in **`git-filter-repo`** apply here. Check **[here](https://htmlpreview.github.io/?https://github.com/newren/git-filter-repo/blob/docs/html/git-filter-repo.html)** for detailed limitations.
+- Only one branch is mirrored, as set by `main_branch` action parameter.
 
 ## Usage
 
@@ -21,10 +34,13 @@ To find out how to create and add the `GITLAB_SSH_PRIVATE_KEY`, follow the steps
 ```yaml
 name: Mirroring
 
-on: [push, delete]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
-  to_gitlab:
+  public_mirror:
     runs-on: ubuntu-latest
     steps:                                              # <-- must use actions/checkout before mirroring!
       - uses: actions/checkout@v3
@@ -33,22 +49,12 @@ jobs:
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url:
-            git@gitlab.com:<username>/<target_repository_name>.git
+            git@github.com:<username>/<target_repository_name>.git
           ssh_private_key:                              # <-- use 'secrets' to pass credential information.
-            ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
-
-  to_codecommit:                                        # <-- different jobs are executed in parallel.
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: pixta-dev/repository-mirroring-action@v1
-        with:
-          target_repo_url:
-            ssh://git-codecommit.<somewhere>.amazonaws.com/v1/repos/<target_repository_name>
-          ssh_private_key:
-            ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
-          ssh_username:                                 # <-- (for codecommit) you need to specify ssh-key-id as ssh username.
-            ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY_ID }}
+            ${{ secrets.SSH_PRIVATE_KEY }}
+          main_branch: master
 ```
+
+# Acknowledgements
+
+This action is based on the original **[repository-mirroring-action](https://github.com/pixta-dev/repository-mirroring-action)** by pixta-dev. We've added features for more flexibility when mirroring repositories, especially when some files or directories need to be kept private.
