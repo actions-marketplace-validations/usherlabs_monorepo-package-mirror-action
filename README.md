@@ -1,4 +1,4 @@
-# **Repository Mirroring Action**
+# **Monorepo Package Mirror Action**
 
 This GitHub Action mirrors a repository to another repository while rewriting git history to ignore certain files or directories. It is based on the original **[repository-mirroring-action](https://github.com/pixta-dev/repository-mirroring-action)** by pixta-dev, but with some added features:
 
@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: pixta-dev/repository-mirroring-action@v1
+      - uses: usher-labs/monorepo-package-mirror-action@main
         with:
           target_repo_url:
             git@github.com:<username>/<target_repository_name>.git
