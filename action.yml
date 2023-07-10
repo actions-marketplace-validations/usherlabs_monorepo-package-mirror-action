@@ -1,5 +1,5 @@
-name: "Mirroring Repository (usher-fork)"
-description: "Mirroring with support for ignoring private directories"
+name: "Monorepo Package Mirror Action"
+description: "Mirroring with support for ignoring private directories. Based on `pixta-dev/repository-mirroring-action`"
 branding:
   icon: "archive"
   color: "blue"
