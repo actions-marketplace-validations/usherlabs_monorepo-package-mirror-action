@@ -12,7 +12,7 @@ This action is perfect for maintaining a clean, public-facing mirror of a privat
 
 1. It's recommended to set it to run on main branch pushes and deletions. You can configure the branch in the settings of the GitHub action.
 2. It runs within a Docker environment, containing the pushed repository at **`/github/workspaces`**.
-3. It uses **`git-filter-repo`** to rewrite git history, removing all paths (directories and files) specified in the **`.mirrorignore`** file. See the **[documentation](https://htmlpreview.github.io/?https://github.com/newren/git-filter-repo/blob/docs/html/git-filter-repo.html)** for more details.
+3. It uses **`git-filter-repo`** to rewrite git history, removing all paths (directories and files) specified in the **`.mirrorignore`** file. See the **[documentation](https://htmlpreview.github.io/?https://github.com/newren/git-filter-repo/blob/docs/html/git-filter-repo.html)** for more details about git-filter-repo mechanisms.
 4. If any removed directories were present on the last commit, they will be replaced with a directory containing **`.gitkeep`** and **`.private`** files.
 5. These changes are committed and pushed to the mirror repository.
 
@@ -55,6 +55,27 @@ jobs:
             # <-- use 'secrets' to pass credential information.
             ${{ secrets.SSH_PRIVATE_KEY }}
           main_branch: master
+```
+
+##  .mirrorignore file
+To avoid copying specific files or directories on the mirrored repository, you can add a `.mirrorignore` file to the root of the source repository.
+
+```ignore
+# .mirrorignore example content
+# Be aware: the mirrorignore parse isn't robust
+# file path format:
+# path/to/file.txt
+# directory path format:
+# path/to/dir or path/to/dir
+# spaces on files or folders isn't supported.
+# glob pattern isn't supported.
+
+# won't copy the following files to the mirror repo
+packages/broker
+packages/validator
+# to avoid copying again this action to the mirror
+# rename to the appropriate action file
+.github/workflows/public-mirror.yml
 ```
 
 # Acknowledgements
