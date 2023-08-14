@@ -42,7 +42,8 @@ on:
 jobs:
   public_mirror:
     runs-on: ubuntu-latest
-    steps:                                              # <-- must use actions/checkout before mirroring!
+    steps:
+      # <-- must use actions/checkout before mirroring!
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -50,7 +51,8 @@ jobs:
         with:
           target_repo_url:
             git@github.com:<username>/<target_repository_name>.git
-          ssh_private_key:                              # <-- use 'secrets' to pass credential information.
+          ssh_private_key:
+            # <-- use 'secrets' to pass credential information.
             ${{ secrets.SSH_PRIVATE_KEY }}
           main_branch: master
 ```
