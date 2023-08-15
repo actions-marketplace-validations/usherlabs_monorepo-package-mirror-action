@@ -1,8 +1,8 @@
 name: "Monorepo Package Mirror Action"
 description: "Mirroring with support for ignoring private directories. Based on `pixta-dev/repository-mirroring-action`"
 branding:
-  icon: "archive"
-  color: "blue"
+  icon: "grid"
+  color: "yellow"
 inputs:
   ssh_private_key:
     description: "SSH private key for ssh connection to the target repository"
